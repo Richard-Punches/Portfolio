@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Richard Punches – Knowledge Management Portfolio</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0d1117;
+      --surface:     #161b22;
+      --surface2:    #1c2330;
+      --border:      #30363d;
+      --accent:      #58a6ff;
+      --accent-dim:  #1f6feb;
+      --text:        #c9d1d9;
+      --text-bright: #f0f6fc;
+      --text-muted:  #8b949e;
+      --nav-h:       64px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    h1, h2, h3 { color: var(--text-bright); font-weight: 600; line-height: 1.3; }
+
+    /* ── Navigation ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(13, 17, 23, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 2rem;
+    }
+
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-bright);
+      white-space: nowrap;
+      margin-right: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-bright);
+      background: var(--surface2);
+      text-decoration: none;
+    }
+
+    /* ── Section wrapper ── */
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    section > h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    section > p, section > .body-text {
+      color: var(--text);
+      max-width: 720px;
+    }
+
+    /* ── Hero / Index ── */
+    #home {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+      align-items: center;
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+
+    .hero-text h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-text .title {
+      font-size: 1.15rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-text .bio {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      max-width: 520px;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .contact-list li a { color: var(--accent); }
+    .contact-list .icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      fill: var(--text-muted);
+    }
+
+    .profile-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-img {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      border: 3px solid var(--accent-dim);
+      box-shadow: 0 0 40px rgba(88,166,255,0.15);
+    }
+
+    .profile-placeholder {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 3px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* ── Skill cards ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--accent-dim);
+      box-shadow: 0 0 20px rgba(88,166,255,0.08);
+    }
+
+    .card h3 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--accent); }
+    .card p  { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* ── Feature image block ── */
+    .feature-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .feature-block.reverse { direction: rtl; }
+    .feature-block.reverse > * { direction: ltr; }
+
+    .feature-img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    .feature-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ── Resume ── */
+    .resume-section { margin-top: 2.5rem; }
+
+    .resume-section + .resume-section { margin-top: 3rem; }
+
+    .resume-section h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .job {
+      margin-bottom: 2rem;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .job-title { font-weight: 600; color: var(--text-bright); font-size: 1rem; }
+    .job-date  { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
+    .job-org   { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.5rem; }
+
+    .job p    { font-size: 0.9rem; color: var(--text-muted); }
+
+    .bullet-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.5rem;
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .skills-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* PM highlight callout */
+    .pm-callout {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 1.4rem 1.75rem;
+      margin: 2rem 0;
+    }
+
+    .pm-callout h3 { font-size: 1.05rem; color: var(--accent); margin-bottom: 0.75rem; }
+    .pm-callout ul { list-style: none; }
+    .pm-callout ul li {
+      padding-left: 1.4rem;
+      position: relative;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+    .pm-callout ul li::before { content: "✦"; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; top: 0.35rem; }
+
+    /* ── PDF embeds ── */
+    .pdf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .pdf-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .pdf-wrap h3 {
+      padding: 0.85rem 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-bright);
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pdf-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 560px;
+      border: none;
+      background: #fff;
+    }
+
+    .pdf-fallback {
+      padding: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ── IA timeline ── */
+    .timeline {
+      margin-top: 2rem;
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-dim), transparent);
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .tl-item::before {
+      content: "";
+      position: absolute;
+      left: -2.4rem;
+      top: 0.5rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+
+    .tl-item h3 { font-size: 1rem; color: var(--text-bright); margin-bottom: 0.3rem; }
+    .tl-item p  { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      #home { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+      .profile-wrap { order: -1; }
+      .feature-block { grid-template-columns: 1fr; }
+      .pdf-grid { grid-template-columns: 1fr; }
+      .hero-text h1 { font-size: 2rem; }
+      nav { gap: 1rem; padding: 0 1rem; }
+      .nav-brand { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <span class="nav-brand">Richard Punches</span>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#stakeholder">Stakeholder Mgmt</a></li>
+    <li><a href="#authoring">Structured Authoring</a></li>
+    <li><a href="#ia">Info Architecture</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#examples">Examples</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<section id="home">
+  <div class="hero-text">
+    <p class="section-label">Knowledge Management Portfolio</p>
+    <h1>Richard Punches</h1>
+    <p class="title">Senior Technical Writer &amp; Program Manager</p>
+    <p class="bio">
+      Over a decade of experience turning complex technical content into structured,
+      reusable knowledge — from DITA-based documentation frameworks at Intel and ADP to
+      enterprise CCMS architecture and stakeholder enablement. Based in Portland, OR.
+    </p>
+    <ul class="contact-list">
+      <li>
+        <!-- Location icon -->
+        <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        Portland, OR 97232
+      </li>
+      <li>
+        <!-- Email icon -->
+        <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+        <a href="mailto:richardpunches58@gmail.com">richardpunches58@gmail.com</a>
+      </li>
+      <li>
+        <!-- LinkedIn icon -->
+        <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57A1.32 1.32 0 0 1 14.24 12.25C14.94 12.25 15.5 12.81 15.5 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/>
+        </svg>
+        <a href="http://linkedin.com/in/richard-punches-4686512" target="_blank" rel="noopener">linkedin.com/in/richard-punches-4686512</a>
+      </li>
+    </ul>
+  </div>
+  <div class="profile-wrap">
+    <img src="profile.jpg" alt="Richard Punches" class="profile-img"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+    <div class="profile-placeholder" style="display:none;">
+      Add <code>profile.jpg</code><br/>to repo root
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STAKEHOLDER MANAGEMENT ══════════ -->
+<section id="stakeholder">
+  <p class="section-label">Collaboration &amp; Enablement</p>
+  <h2>Stakeholder Management</h2>
+  <p>
+    Getting subject matter experts and business unit leads to adopt DITA and topic-based
+    authoring isn't just a technical exercise — it's a people challenge. I've spent years helping
+    teams that are skeptical of structured authoring discover why it works for them, not just
+    for the documentation department.
+  </p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Onboarding &amp; Mentoring</h3>
+      <p>
+        I bring business units into structured authoring workflows through online mentoring
+        sessions tailored to their level of familiarity. From initial concept walkthroughs to
+        hands-on topic construction, I meet stakeholders where they are.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Multichannel Publishing Guidance</h3>
+      <p>
+        Once a team understands DITA's reuse potential, the next step is publishing. I walk
+        stakeholders through multichannel output strategies — web, PDF, help systems — so
+        their investment in structured content pays dividends across every channel.
+      </p>
+    </div>
+    <div class="card">
+      <h3>DITA Tagging Reviews</h3>
+      <p>
+        I conduct ongoing structural reviews of in-progress DITA content, providing concrete,
+        actionable feedback on topic architecture, element use, and metadata tagging
+        before bad habits calcify.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Embracing the Skeptics</h3>
+      <p>
+        Some of the most rewarding work I've done is turning resistant stakeholders into DITA
+        advocates. By focusing on their pain points first and structured authoring second,
+        I've helped hesitant teams make the shift on their own terms.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STRUCTURED AUTHORING ══════════ -->
+<section id="authoring">
+  <p class="section-label">DITA &amp; XML Methodology</p>
+  <h2>Structured Authoring</h2>
+
+  <div class="feature-block">
+    <div>
+      <p>
+        I've been doing structured authoring since before most teams knew what DITA was.
+        Over a decade of hands-on work with the methodology has shaped how I approach every
+        documentation project — whether it's a hardware product manual, an SOP library,
+        a Salesforce knowledge module, or an enterprise help system.
+      </p>
+      <br/>
+      <p>
+        The real value in structured authoring isn't the tagging — it's the thinking it
+        demands. Topic-based authoring forces clarity about what a piece of content is
+        actually for, which makes every deliverable more useful to its audience.
+      </p>
+      <br/>
+      <p>
+        I have deep experience with <strong>content conditionalization</strong> for reuse —
+        building topic pools that serve multiple products, audiences, and output formats from
+        a single source of truth, reducing maintenance overhead and version drift.
+      </p>
+    </div>
+    <div>
+      <img src="salesforce.jpg" alt="Salesforce Knowledge Management" class="feature-img"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="feature-img-placeholder" style="display:none;">Add <code>salesforce.jpg</code> to repo root</div>
+    </div>
+  </div>
+
+  <div class="card-grid" style="margin-top:3rem;">
+    <div class="card">
+      <h3>Product Documentation</h3>
+      <p>Full lifecycle technical documentation — from engineering review through end-of-life — for embedded Intel x86 hardware and software solutions.</p>
+    </div>
+    <div class="card">
+      <h3>SOPs &amp; Case Management</h3>
+      <p>Associate-facing procedure content and case management documentation built with DITA at scale using Ixiasoft, XMetal, and FrameMaker.</p>
+    </div>
+    <div class="card">
+      <h3>Help Systems</h3>
+      <p>Online help built from modular DITA topic sets, published to multiple output formats including HTML5 and PDF from a single source.</p>
+    </div>
+    <div class="card">
+      <h3>AI-Assisted Refactoring</h3>
+      <p>Member of the ADP team developing a ChatGPT-based DITA refactoring application to accelerate legacy content migration.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INFORMATION ARCHITECTURE ══════════ -->
+<section id="ia">
+  <p class="section-label">Structure &amp; Taxonomy</p>
+  <h2>Information Architecture</h2>
+  <p>
+    Good information architecture is invisible when it works — content is where users expect
+    it, metadata is consistent, and reuse happens without friction. I've contributed to
+    enterprise-scale IA projects where those outcomes were far from guaranteed.
+  </p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <h3>Enterprise CCMS Restructuring</h3>
+      <p>
+        Participated in a ground-up restructuring of an enterprise Component Content Management
+        System (CCMS) to enable systematic content reuse. This involved auditing existing
+        topic structures, identifying reuse opportunities, and implementing map architectures
+        that reduced content duplication across product lines.
+      </p>
+    </div>
+    <div class="tl-item">
+      <h3>Multilingual Metadata Redesign</h3>
+      <p>
+        Took part in a cross-functional initiative to redesign multilingual metadata schemes,
+        ensuring that taxonomy structures and classification attributes were consistent and
+        translatable across language variants — a prerequisite for scalable localization
+        workflows.
+      </p>
+    </div>
+    <div class="tl-item">
+      <h3>Content Conditionalization Frameworks</h3>
+      <p>
+        Designed and implemented conditional processing attribute schemes (DITAVAL) enabling
+        a single topic pool to serve multiple product variants, audience levels, and delivery
+        channels without content branching.
+      </p>
+    </div>
+    <div class="tl-item">
+      <h3>Intel Information Repository Management</h3>
+      <p>
+        Managed the information repository and system architecture for Intel modem and gateway
+        product documentation, maintaining the integrity of topic relationships, map hierarchies,
+        and metadata schemas across a large, actively-maintained content set.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ RESUME ══════════ -->
+<section id="resume">
+  <p class="section-label">Professional Background</p>
+  <h2>Resume</h2>
+
+  <div class="pm-callout">
+    <h3>Project Management Highlights</h3>
+    <ul>
+      <li>Led cross-functional teams spanning engineering, marketing, web development, and management at Intel</li>
+      <li>Oversaw Intel ESAA program growth from 20 to 2,000 members over eight years as Operations Manager</li>
+      <li>Tripled traffic to Intel's public-facing server product pages as sole Project Manager/Web Manager</li>
+      <li>In 2017, oversaw the largest single release of new product documentation in VersaLogic's history</li>
+      <li>Managed external partner relationships with software vendors, hardware resellers, and strategic customers</li>
+      <li>Provided business analytics that drove strategic direction for Intel management and ESAA partners</li>
+      <li>Applied Jira-based agile methodologies throughout the full product documentation development lifecycle</li>
+    </ul>
+  </div>
+
+  <div class="resume-section">
+    <h3>Profile</h3>
+    <p>Experienced Technical Writer/Program Manager with over ten years of DITA methodology experience, legacy content migration expertise, analytics skills working with large data sets, and a track record managing cross-functional teams and external partner deliverables.</p>
+  </div>
+
+  <div class="resume-section">
+    <h3>Experience</h3>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Technical Writer / Content Developer</span>
+        <span class="job-date">June 2022 – October 2025</span>
+      </div>
+      <div class="job-org">ADP</div>
+      <p>Created and administered associate-facing content using DITA methodologies. Provided internal consulting to ADP business units on legacy content migration and Salesforce knowledge module implementation. Member of the team developing a ChatGPT-based DITA refactoring application.</p>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Technical Communications</span>
+        <span class="job-date">June 2021 – August 2021</span>
+      </div>
+      <div class="job-org">Nike EAP/CSE</div>
+      <p>Launch support and engagement for open-source data tools within corporate Nike. Used Visio and Confluence to storyboard data analysis processes using open-source tools including Kafka and NiFi.</p>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior Technical Writer</span>
+        <span class="job-date">August 2016 – June 2021</span>
+      </div>
+      <div class="job-org">VersaLogic Corporation</div>
+      <p>Sole technical writer; owned all embedded Intel x86 architecture-based technical documentation from product development through end-of-life. Applied Jira-based agile methodologies for product development. In 2017, oversaw the largest release of new product documentation in the company's history.</p>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior Technical Writer / DITA Development</span>
+        <span class="job-date">July 2009 – August 2016</span>
+      </div>
+      <div class="job-org">Intel Corporation, Hillsboro, OR</div>
+      <ul class="bullet-list">
+        <li>Developed online customer documentation for Intel modem and gateway products using DITA and XML tools</li>
+        <li>Technical writing, legal editing, trademark and branding</li>
+        <li>Managed the information repository and system</li>
+        <li>Primary contact for subject matter experts and key stakeholders</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior Technical Writer / Documentation Management</span>
+        <span class="job-date">Intel PCCG</span>
+      </div>
+      <div class="job-org">Intel Corporation, Hillsboro, OR</div>
+      <ul class="bullet-list">
+        <li>Supported Intel x86 architecture notebook, tablet, and desktop documentation</li>
+        <li>Managed NDA access to confidential and restricted customer material</li>
+        <li>Team lead for managing Intel Confidential documentation</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Operations Manager — Intel ESAA Software Solution</span>
+        <span class="job-date">2000 – June 2009</span>
+      </div>
+      <div class="job-org">Intel Corporation, Hillsboro, OR</div>
+      <ul class="bullet-list">
+        <li>Key player on team that grew program from 20 to 2,000 members over eight years</li>
+        <li>Managed day-to-day operations of cross-divisional teams spanning engineering, marketing, and web development</li>
+        <li>Managed external partner relationships with software vendors and hardware resellers</li>
+        <li>Provided business analytics that drove strategic direction for Intel management and ESAA partners</li>
+        <li>Created, edited, and validated over 300 technical software installation documents</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Project Manager / Business Unit Web Manager</span>
+        <span class="job-date">2004 – 2006</span>
+      </div>
+      <div class="job-org">Intel Corporation, Hillsboro, OR</div>
+      <ul class="bullet-list">
+        <li>Increased traffic to server product pages by 3× as sole content manager for Intel's public-facing server web pages</li>
+        <li>Managed intra-corporate teams across marketing, web development, and management</li>
+        <li>Instituted metrics-based design and decision-making with monthly deep web metrics reporting</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Oracle Developer / Performance Analyst</span>
+        <span class="job-date">1998 – 2000</span>
+      </div>
+      <div class="job-org">Worksystems Inc., Portland, OR</div>
+      <ul class="bullet-list">
+        <li>Lead developer in user-based database and forms design</li>
+        <li>Complex project management across fiscal and technical database implementations</li>
+        <li>Data analysis and publication for State and Federal agencies</li>
+        <li>Regional expert in Workforce Implementation Act compliance</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior Instructor</span>
+        <span class="job-date">1990 – 1998</span>
+      </div>
+      <div class="job-org">University of Oregon Continuation Center</div>
+      <ul class="bullet-list">
+        <li>Needs assessment, course development, and continuous improvement of computer and technical corporate training</li>
+        <li>Staff development and mentoring</li>
+        <li>Corporate training contract negotiation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="resume-section">
+    <h3>Tools &amp; Technology</h3>
+    <div class="skills-chips">
+      <span class="chip">Ixiasoft Web Author</span>
+      <span class="chip">XMetal</span>
+      <span class="chip">FrameMaker</span>
+      <span class="chip">DITA/XML</span>
+      <span class="chip">Jira</span>
+      <span class="chip">Confluence</span>
+      <span class="chip">SharePoint</span>
+      <span class="chip">Adobe Illustrator</span>
+      <span class="chip">Acrobat Pro</span>
+      <span class="chip">Salesforce Knowledge</span>
+      <span class="chip">Visio</span>
+      <span class="chip">Oracle</span>
+      <span class="chip">Microsoft Word</span>
+    </div>
+  </div>
+
+  <div class="resume-section">
+    <h3>Education</h3>
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Bachelor of Arts — History (Minor: Economics)</span>
+      </div>
+      <div class="job-org">University of Montana, Missoula, MT</div>
+    </div>
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Post-Graduate Work in Applied Information Management</span>
+      </div>
+      <div class="job-org">University of Oregon</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ EXAMPLES ══════════ -->
+<section id="examples">
+  <p class="section-label">Work Samples</p>
+  <h2>Examples</h2>
+  <p>
+    The vast majority of my work is protected by NDA and confidentiality agreements —
+    a reality for anyone working in enterprise technical documentation. The two samples
+    below represent the kind of structured, audience-focused technical content I produce.
+  </p>
+
+  <div class="pdf-grid">
+    <div class="pdf-wrap">
+      <h3>ESU-5070 Remote Management Manual</h3>
+      <iframe
+        src="ESU-5070 Remote Management Manual 2.pdf"
+        title="ESU-5070 Remote Management Manual">
+      </iframe>
+      <div class="pdf-fallback">
+        <a href="ESU-5070 Remote Management Manual 2.pdf" target="_blank">Open PDF ↗</a>
+      </div>
+    </div>
+    <div class="pdf-wrap">
+      <h3>VMware Configuration Recipe</h3>
+      <iframe
+        src="VMware_recipe.pdf"
+        title="VMware Configuration Recipe">
+      </iframe>
+      <div class="pdf-fallback">
+        <a href="VMware_recipe.pdf" target="_blank">Open PDF ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <p>© 2026 Richard Punches · Portland, OR · <a href="mailto:richardpunches58@gmail.com">richardpunches58@gmail.com</a></p>
+</footer>
+
+<script>
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-64px 0px 0px 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
